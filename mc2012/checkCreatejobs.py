@@ -38,6 +38,7 @@ with open(allsubmits) as fp:
 	    nextline = fp.next()
 	    #print nextline
 	    SCRIPT.writelines(nextline+'\n')
+	    SCRIPT.writelines('#CMSSW.events_per_job          = 10000')
 	    SCRIPT.close()
 	
 	    #if "MC8TeV_ZH125" in line:
