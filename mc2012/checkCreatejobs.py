@@ -32,11 +32,11 @@ with open(allsubmits) as fp:
 	    if("[Data8TeV_" in line) : SCRIPT.writelines('CMSSW.lumi_mask       = Cert_190456-208686_8TeV_22Jan2013ReReco_Collisions12_JSON.txt')
 	    SCRIPT.writelines('\n\n\n\n')
 
-	    print line
+	    #print line
 	    lists.append(line)
 	    SCRIPT.writelines(line)
 	    nextline = fp.next()
-	    print nextline
+	    #print nextline
 	    SCRIPT.writelines(nextline+'\n')
 	    SCRIPT.close()
 	
