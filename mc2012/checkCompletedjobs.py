@@ -56,18 +56,17 @@ for ajob in alljobs:
 	      llfile = logfile[3].split('/')
 	      print llfile[16]
 
-              for proc in procList :
-                for desc in proc[1] :
-                        data = desc['data']
-                        #print data
-                        for d in data :
-                                origdtag = getByLabel(d,'dtag','')
-                                split = getByLabel(d,'split','')
-                                #print origdtag + ': ' + str(split)
-                                if(llfile[16] == origdtag): asplit = split
+	      for proc in procList :
+		for desc in proc[1] :
+			data = desc['data']
+			#print data
+			for d in data :
+				origdtag = getByLabel(d,'dtag','') 
+				split = getByLabel(d,'split','')
+				#print origdtag + ': ' + str(split)
+				if(llfile[16] == origdtag): asplit = split
 
-              #print str(asplit)
-
+	      #print str(asplit)
 
 	  if "Jobs with Wrapper Exit Code : 0" in line:
 	      #print line
@@ -86,12 +85,9 @@ for ajob in alljobs:
 	if myfinishjobs == totaljobs[1]:
 	  SCRIPT.writelines('# Total jobs: ' + totaljobs[1] + ' finished jobs: '+ finishjobs[1] + '\n')
 	  SCRIPT.writelines('#' + ajob + '\n')
-	  SCRIPT.writelines('multicrab -get -c ' + ajob + ';\n')
-	  SCRIPT.writelines('multicrab -report -c ' + ajob + ';\n')
-	  SCRIPT.writelines('#mkdir -p jsonFile;\n');
-	  SCRIPT.writelines('#cp '+llfile[16]+'/res/task_missingLumiSummary.json jsonFile/'+llfile[16]+'_missingLumiSummary.json;\n')
-	  SCRIPT.writelines('#cp '+llfile[16]+'/res/lumiSummary.json jsonFile/'+llfile[16]+'_lumiSummary.json;\n')
-	  SCRIPT.writelines('#sh mergeOutput.sh ' + llfile[16] + ' '+ str(asplit) + ' ;\n')
+	  SCRIPT.writelines('  multicrab -get -c ' + ajob + ';\n')
+	  #SCRIPT.writelines('# multicrab -report -c ' + ajob + ';\n')
+	  SCRIPT.writelines('# sh mergeOutput.sh ' + llfile[16] + ' '+ str(asplit) + ' ;\n')
 	  SCRIPT.writelines('# multicrab -clean -c ' + ajob + ';\n')
 	  SCRIPT.writelines('# rm -r ' + ajob + ';\n')
 	  SCRIPT.writelines('# rm -r ' + llfile[16] + ';\n')
