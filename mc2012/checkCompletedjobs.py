@@ -37,6 +37,7 @@ for ajob in alljobs:
     with open(joblog) as fp:
 
 	myfinishjobs = '0'
+	mydir = 'FXIME'
     	for line in fp:
 
 	  #if "Jobs with Wrapper Exit Code :" in line:
@@ -54,7 +55,11 @@ for ajob in alljobs:
 	  if "Log file" in line:
 	      logfile = line.split()
 	      llfile = logfile[3].split('/')
-	      print llfile[16]
+	      #print llfile
+	      for ifile in llfile: 
+		if ('MC8TeV_' in ifile) or ('Data8TeV_' in ifile):
+			mydir=ifile
+		 
 
 	      for proc in procList :
 		for desc in proc[1] :
@@ -64,7 +69,7 @@ for ajob in alljobs:
 				origdtag = getByLabel(d,'dtag','') 
 				split = getByLabel(d,'split','')
 				#print origdtag + ': ' + str(split)
-				if(llfile[16] == origdtag): asplit = split
+				if(mydir == origdtag): asplit = split
 
 	      #print str(asplit)
 
@@ -87,10 +92,10 @@ for ajob in alljobs:
 	  SCRIPT.writelines('#' + ajob + '\n')
 	  SCRIPT.writelines('  multicrab -get -c ' + ajob + ';\n')
 	  #SCRIPT.writelines('# multicrab -report -c ' + ajob + ';\n')
-	  SCRIPT.writelines('# sh mergeOutput.sh ' + llfile[16] + ' '+ str(asplit) + ' ;\n')
+	  SCRIPT.writelines('# sh mergeOutput.sh ' + mydir + ' '+ str(asplit) + ' ;\n')
 	  SCRIPT.writelines('# multicrab -clean -c ' + ajob + ';\n')
 	  SCRIPT.writelines('# rm -r ' + ajob + ';\n')
-	  SCRIPT.writelines('# rm -r ' + llfile[16] + ';\n')
+	  SCRIPT.writelines('# rm -r ' + mydir + ';\n')
 
 
 SCRIPT.close()
