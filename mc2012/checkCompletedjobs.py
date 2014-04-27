@@ -96,6 +96,7 @@ for ajob in alljobs:
 	  SCRIPT.writelines('# multicrab -clean -c ' + ajob + ';\n')
 	  SCRIPT.writelines('# rm -r ' + ajob + ';\n')
 	  SCRIPT.writelines('# rm -r ' + mydir + ';\n')
+	  SCRIPT.writelines('# rm ' + joblog + ';\n')
 
 
 SCRIPT.close()
