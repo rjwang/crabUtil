@@ -63,7 +63,10 @@ for ajob in alljobs:
 	       createdjobs = line.split()
 	       mycreatedjobs = createdjobs[1]
 
-	print '# Total: '+totaljobs[1]+' >>> Finished: '+myfinishjobs+' >>> Submitted: '+mysubmitjobs+' >>> Running: '+myrunjobs+' >>> Created: '+mycreatedjobs+'\n'
+	if int(totaljobs[1])== int(myfinishjobs): 
+		print '\033[92m# Total: '+totaljobs[1]+' >>> Finished: '+myfinishjobs+' >>> Submitted: '+mysubmitjobs+' >>> Running: '+myrunjobs+' >>> Created: '+mycreatedjobs+'\033[0m\n'
+	else:
+		print '# Total: '+totaljobs[1]+' >>> Finished: '+myfinishjobs+' >>> Submitted: '+mysubmitjobs+' >>> Running: '+myrunjobs+' >>> Created: '+mycreatedjobs+'\n'
 	SCRIPT.writelines('# Total: '+totaljobs[1]+' >>> Finished: '+myfinishjobs+' >>> Submitted: '+mysubmitjobs+' >>> Running: '+myrunjobs+' >>> Created: '+mycreatedjobs+'\n')
 
 	if int(totaljobs[1]) == int(mysubmitjobs) : continue
