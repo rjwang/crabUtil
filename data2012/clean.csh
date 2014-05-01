@@ -1,0 +1,2 @@
+
+rm Multicrab_*.cfg
