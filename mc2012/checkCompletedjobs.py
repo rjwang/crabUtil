@@ -90,7 +90,9 @@ for ajob in alljobs:
 	if myfinishjobs == totaljobs[1]:
 	  SCRIPT.writelines('# Total jobs: ' + totaljobs[1] + ' finished jobs: '+ finishjobs[1] + '\n')
 	  SCRIPT.writelines('#' + ajob + '\n')
-	  SCRIPT.writelines('  multicrab -get -c ' + ajob + ';\n')
+          SCRIPT.writelines('  mkdir -p /tmp/rewang/'+mydir+'/res/'+';\n')
+          SCRIPT.writelines('  multicrab -get -c ' + ajob + ';\n')
+          SCRIPT.writelines('  mv '+mydir+'/res/analysis*.root /tmp/rewang/'+mydir+'/res/'+';\n\n')
 	  #SCRIPT.writelines('# multicrab -report -c ' + ajob + ';\n')
 	  SCRIPT.writelines('# sh mergeOutput.sh ' + mydir + ' '+ str(asplit) + ' ;\n')
 	  SCRIPT.writelines('# multicrab -clean -c ' + ajob + ';\n')
