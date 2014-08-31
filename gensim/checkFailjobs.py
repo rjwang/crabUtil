@@ -55,6 +55,12 @@ for ajob in alljobs:
 	      SCRIPT.writelines('#' + line + '\n')
 	      SCRIPT.writelines('multicrab -submit  -c ' + ajob + ';\n')
 
+	  if "Terminated                " in line:
+	      #print line
+	      SCRIPT.writelines('#' + line + '\n')
+	      ijob = line.split()
+	      SCRIPT.writelines('multicrab -get '+ijob[0]+' -c ' + ajob + ';\n')
+
 
 SCRIPT.close()
 
