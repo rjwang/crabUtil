@@ -63,7 +63,7 @@ for ajob in alljobs:
 	       createdjobs = line.split()
 	       mycreatedjobs = createdjobs[1]
 
-	if int(totaljobs[1])== int(myfinishjobs): 
+	if int(totaljobs[1])== int(myfinishjobs):
 		print '\033[92m# Total: '+totaljobs[1]+' >>> Finished: '+myfinishjobs+' >>> Submitted: '+mysubmitjobs+' >>> Running: '+myrunjobs+' >>> Created: '+mycreatedjobs+'\033[0m\n'
 	else:
 		print '# Total: '+totaljobs[1]+' >>> Finished: '+myfinishjobs+' >>> Submitted: '+mysubmitjobs+' >>> Running: '+myrunjobs+' >>> Created: '+mycreatedjobs+'\n'
@@ -72,83 +72,80 @@ for ajob in alljobs:
 	if int(totaljobs[1]) == int(mysubmitjobs) : continue
 	if mycreatedjobs == '0' : continue
 
-	if int(totaljobs[1]) < 500 :
-	  SCRIPT.writelines('multicrab -submit 1-'+ totaljobs[1] +' -c ' + ajob + ';\n')
+	if int(totaljobs[1]) <= 500 :
+	  SCRIPT.writelines('multicrab -submit 	   1-'+ totaljobs[1] +' -c ' + ajob + ';\n')
 
-        elif int(totaljobs[1]) < 1000 :
-	  SCRIPT.writelines('multicrab -submit 1-499 -c ' + ajob + ';\n')
-	  SCRIPT.writelines('multicrab -submit 500-'+ totaljobs[1] +' -c ' + ajob + ';\n')
+        elif int(totaljobs[1]) <= 1000 :
+          SCRIPT.writelines('multicrab -submit     1-500 -c ' + ajob + ';\n')
+	  SCRIPT.writelines('multicrab -submit  501-'+ totaljobs[1] +' -c ' + ajob + ';\n')
 
-	elif int(totaljobs[1]) < 1500 :
-	  SCRIPT.writelines('multicrab -submit 1-499 -c ' + ajob + ';\n')
-	  SCRIPT.writelines('multicrab -submit 500-999 -c ' + ajob + ';\n')
-	  SCRIPT.writelines('multicrab -submit 1000-'+ totaljobs[1] +' -c ' + ajob + ';\n')
-	
-	elif int(totaljobs[1]) < 2000 :
-          SCRIPT.writelines('multicrab -submit 1-499 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 500-999 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 1000-1499 -c ' + ajob + ';\n')
-	  SCRIPT.writelines('multicrab -submit 1500-'+ totaljobs[1] +' -c ' + ajob + ';\n')
+	elif int(totaljobs[1]) <= 1500 :
+          SCRIPT.writelines('multicrab -submit     1-500 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit  501-1000 -c ' + ajob + ';\n')
+	  SCRIPT.writelines('multicrab -submit 1001-'+ totaljobs[1] +' -c ' + ajob + ';\n')
 
-	elif int(totaljobs[1]) < 2500 :
-          SCRIPT.writelines('multicrab -submit 1-499 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 500-999 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 1000-1499 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 1500-1999 -c ' + ajob + ';\n')
-	  SCRIPT.writelines('multicrab -submit 2000-'+ totaljobs[1] +' -c ' + ajob + ';\n')
+	elif int(totaljobs[1]) <= 2000 :
+          SCRIPT.writelines('multicrab -submit     1-500 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit  501-1000 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 1001-1500 -c ' + ajob + ';\n')
+	  SCRIPT.writelines('multicrab -submit 1501-'+ totaljobs[1] +' -c ' + ajob + ';\n')
 
-        elif int(totaljobs[1]) < 3000 :
-          SCRIPT.writelines('multicrab -submit 1-499 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 500-999 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 1000-1499 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 1500-1999 -c ' + ajob + ';\n')
-	  SCRIPT.writelines('multicrab -submit 2000-2499 -c ' + ajob + ';\n')
-	  if int(totaljobs[1]) == 2500 :
-		SCRIPT.writelines('multicrab -submit 2500 -c ' + ajob + ';\n')
-	  else :
-          	SCRIPT.writelines('multicrab -submit 2500-'+ totaljobs[1] +' -c ' + ajob + ';\n')
+	elif int(totaljobs[1]) <= 2500 :
+          SCRIPT.writelines('multicrab -submit     1-500 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit  501-1000 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 1001-1500 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 1501-2000 -c ' + ajob + ';\n')
+	  SCRIPT.writelines('multicrab -submit 2001-'+ totaljobs[1] +' -c ' + ajob + ';\n')
 
-        elif int(totaljobs[1]) < 3500 :
-          SCRIPT.writelines('multicrab -submit 1-499 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 500-999 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 1000-1499 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 1500-1999 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 2000-2499 -c ' + ajob + ';\n')
-	  SCRIPT.writelines('multicrab -submit 2500-2999 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 3000-'+ totaljobs[1] +' -c ' + ajob + ';\n')
+        elif int(totaljobs[1]) <= 3000 :
+          SCRIPT.writelines('multicrab -submit     1-500 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit  501-1000 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 1001-1500 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 1501-2000 -c ' + ajob + ';\n')
+	  SCRIPT.writelines('multicrab -submit 2001-2500 -c ' + ajob + ';\n')
+	  SCRIPT.writelines('multicrab -submit 2501-'+ totaljobs[1] +' -c ' + ajob + ';\n')
 
-	elif int(totaljobs[1]) < 4000 :
-          SCRIPT.writelines('multicrab -submit 1-499 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 500-999 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 1000-1499 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 1500-1999 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 2000-2499 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 2500-2999 -c ' + ajob + ';\n')
-	  SCRIPT.writelines('multicrab -submit 3000-3499 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 3500-'+ totaljobs[1] +' -c ' + ajob + ';\n')
+        elif int(totaljobs[1]) <= 3500 :
+          SCRIPT.writelines('multicrab -submit     1-500 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit  501-1000 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 1001-1500 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 1501-2000 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 2001-2500 -c ' + ajob + ';\n')
+	  SCRIPT.writelines('multicrab -submit 2501-3000 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 3001-'+ totaljobs[1] +' -c ' + ajob + ';\n')
 
-        elif int(totaljobs[1]) < 4500 :
-          SCRIPT.writelines('multicrab -submit 1-499 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 500-999 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 1000-1499 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 1500-1999 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 2000-2499 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 2500-2999 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 3000-3499 -c ' + ajob + ';\n')
-	  SCRIPT.writelines('multicrab -submit 3500-3999 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 4000-'+ totaljobs[1] +' -c ' + ajob + ';\n')
+	elif int(totaljobs[1]) <= 4000 :
+          SCRIPT.writelines('multicrab -submit     1-500 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit  501-1000 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 1001-1500 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 1501-2000 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 2001-2500 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 2501-3000 -c ' + ajob + ';\n')
+	  SCRIPT.writelines('multicrab -submit 3001-3500 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 3501-'+ totaljobs[1] +' -c ' + ajob + ';\n')
 
-        elif int(totaljobs[1]) < 5000 :
-          SCRIPT.writelines('multicrab -submit 1-499 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 500-999 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 1000-1499 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 1500-1999 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 2000-2499 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 2500-2999 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 3000-3499 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 3500-3999 -c ' + ajob + ';\n')
-	  SCRIPT.writelines('multicrab -submit 4000-4499 -c ' + ajob + ';\n')
-          SCRIPT.writelines('multicrab -submit 4500-'+ totaljobs[1] +' -c ' + ajob + ';\n')
+        elif int(totaljobs[1]) <= 4500 :
+          SCRIPT.writelines('multicrab -submit 	   1-500 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit  501-1000 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 1001-1500 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 1501-2000 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 2001-2500 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 2501-3000 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 3001-3500 -c ' + ajob + ';\n')
+	  SCRIPT.writelines('multicrab -submit 3501-4000 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 4001-'+ totaljobs[1] +' -c ' + ajob + ';\n')
+
+        elif int(totaljobs[1]) <= 5000 :
+          SCRIPT.writelines('multicrab -submit     1-500 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit  501-1000 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 1001-1500 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 1501-2000 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 2001-2500 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 2501-3000 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 3001-3500 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 3501-4000 -c ' + ajob + ';\n')
+	  SCRIPT.writelines('multicrab -submit 4001-4500 -c ' + ajob + ';\n')
+          SCRIPT.writelines('multicrab -submit 4501-'+ totaljobs[1] +' -c ' + ajob + ';\n')
 
 	else :
 	  print 'need to fix the code'
