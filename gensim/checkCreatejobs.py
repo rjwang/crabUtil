@@ -16,7 +16,7 @@ with open(allsubmits) as fp:
 	    setname = line1.split('[')[1]
 
 	    ALLSCRIPT.writelines('# multicrab -create -cfg '+ 'Multicrab_'+setname+'.cfg \n')
-	    ALLSCRIPT.writelines('# python ChangeXML.py -c '+ setname+' \n\n')
+	    ALLSCRIPT.writelines('# python ChangeXML.py -n 20 -c '+ setname+' \n\n')
 
 	    SCRIPT = open('Multicrab_'+setname+'.cfg',"w")
             SCRIPT.writelines('[MULTICRAB]\n')

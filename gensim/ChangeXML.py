@@ -4,14 +4,15 @@ import getopt
 import commands
 
 dir='-1'
+nevents='20'
 
 def help() :
-   print 'changeXML.py -c [dir]'
+   print 'changeXML.py -n [# of Event per job] -c [dir]'
 
 #parse the options
 try:
    # retrive command line options
-   shortopts  = "c:?"
+   shortopts  = "c:n:?"
    opts, args = getopt.getopt( sys.argv[1:], shortopts )
 except getopt.GetoptError:
    # print help information and exit:
@@ -24,6 +25,7 @@ for o,a in opts:
       help()
       sys.exit(1)
    elif o in('-c'): dir = a
+   elif o in('-n'): nevents = a
 
 
 if dir == '-1':
@@ -32,9 +34,9 @@ if dir == '-1':
 
 
 isFileExist = os.path.isfile(dir+'/share/arguments.xml.old')
-if isFileExist : 
+if isFileExist :
 	print 'File: '+dir+'/share/arguments.xml.old'+' Exist!'
-else : 
+else :
 	os.system('cp '+dir+'/share/arguments.xml '+dir+'/share/arguments.xml.old')
 
 
@@ -45,14 +47,16 @@ tofile = open(dir+'/share/arguments.xml',"w")
 
 ## change me
 ####################
-Njobs=2500
-MaxEvents=20
+#Njobs=2500
+#MaxEvents=20
 ####################
+print '\033[32m\n'
 print '++++++++++++++++++++++++++++++++++++++++++++'
 print '  Please make sure to change the value:     '
-print '	 Njobs: '+str(Njobs)
-print '  MaxEvents: '+str(MaxEvents)
+#print '	 Njobs: '+str(Njobs)
+print '  MaxEvents per Job: '+nevents
 print '++++++++++++++++++++++++++++++++++++++++++++'
+print '\033[0m\n'
 
 
 with open(fromfile) as fp:
@@ -69,7 +73,7 @@ with open(fromfile) as fp:
 			line = line.replace(lumiline,'SkipEvents="'+str(skipEvents)+'"')
 			tofile.writelines(line)
 			njob = njob+1
-			skipEvents = MaxEvents*njob
+			skipEvents = int(nevents)*njob
 
 		else :
 			tofile.writelines(line)
