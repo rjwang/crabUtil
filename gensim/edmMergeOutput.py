@@ -117,7 +117,7 @@ with open(AllList) as ffp:
 SLOCAL.writelines('nproc=5\n')
 SLOCAL.writelines('for i in {0..'+str(fcount-1)+'}\n')
 SLOCAL.writelines('do\n')
-SLOCAL.writelines('    echo "running job: $i"\n')
+SLOCAL.writelines('    echo "running job: $i    sh script_edmMerge_$i.sh >& script_edmMerge_$i.log &"\n')
 SLOCAL.writelines('    sh script_edmMerge_$i.sh >& script_edmMerge_$i.log &\n')
 SLOCAL.writelines('    jobmax $nproc\n')
 SLOCAL.writelines('done\n')
