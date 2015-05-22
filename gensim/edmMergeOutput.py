@@ -73,6 +73,20 @@ DOUBLE_CNT.close()
 outputList=''
 
 SLOCAL = open('run_merge.sh',"w")
+SLOCAL.writelines('#!bin/sh\n\n')
+
+SLOCAL.writelines('function jobmax\n')
+SLOCAL.writelines('{\n')
+SLOCAL.writelines('    typeset -i MAXJOBS=$1\n')
+SLOCAL.writelines('    sleep .1\n')
+SLOCAL.writelines('    while (( ($(pgrep -P $$ | wc -l) - 1) >= $MAXJOBS ))\n')
+SLOCAL.writelines('    do\n')
+SLOCAL.writelines('        sleep .1\n')
+SLOCAL.writelines('    done\n')
+SLOCAL.writelines('}\n\n\n')
+
+
+
 
 with open(AllList) as ffp:
 	jcount=0
@@ -92,7 +106,7 @@ with open(AllList) as ffp:
 			SCRIPT = open('script_edmMerge_'+str(fcount)+'.sh',"w")
 			SCRIPT.writelines(exe+';\n')
 			SCRIPT.close()
-			SLOCAL.writelines('sh script_edmMerge_'+str(fcount)+'.sh >& script_edmMerge_'+str(fcount)+'.log &\n')
+			#SLOCAL.writelines('sh script_edmMerge_'+str(fcount)+'.sh >& script_edmMerge_'+str(fcount)+'.log &\n')
 			#print '\n'
 			fcount += 1
 			outputList=''
@@ -100,5 +114,13 @@ with open(AllList) as ffp:
 
 		if jcount!=count: outputList += ','
 
+SLOCAL.writelines('nproc=5\n')
+SLOCAL.writelines('for i in {0..'+str(fcount-1)+'}\n')
+SLOCAL.writelines('do\n')
+SLOCAL.writelines('    echo "running job: $i"\n')
+SLOCAL.writelines('    sh script_edmMerge_$i.sh >& script_edmMerge_$i.log &\n')
+SLOCAL.writelines('    jobmax $nproc\n')
+SLOCAL.writelines('done\n')
+SLOCAL.writelines('wait # Wait for the rest\n')
 
 SLOCAL.close()
