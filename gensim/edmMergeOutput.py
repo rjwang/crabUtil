@@ -60,11 +60,11 @@ for i in range(count):
 	for line in allFiles.split():
 		#print line
 		if counted=='-1': tofile.writelines(line+', #FILE'+str(i+1)+'_'+'\n')
-	        else:	 	  
+	        else:
 			#print 'has countted: '+str(i+1)
 			print line
 			DOUBLE_CNT.writelines('rm '+line+';\n')
-			
+
 		counted='1'
 tofile.close()
 DOUBLE_CNT.close()
@@ -72,24 +72,27 @@ DOUBLE_CNT.close()
 
 outputList=''
 
+SLOCAL = open('run_merge.sh',"w")
+
 with open(AllList) as ffp:
 	jcount=0
 	fcount=0
 	for lline in ffp:
 		jobFile=lline.split(',')
 		#print jobFile[0]
-		jcount += 1 
+		jcount += 1
 		outputList = outputList+'file:'+jobFile[0]
 		#if jcount!=count: outputList += ','
 
-		if jcount%100==0 : 
+		if jcount%100==0 :
 			exe='edmCopyPickMerge inputFiles='+outputList+' outputFile=/tmp/rewang/'+dir+'_'+str(fcount)+'.root maxSize=2000000'
 			#print exe
 			#os.system(exe)
 			print 'writing to: script_edmMerge_'+str(fcount)+'.sh'
 			SCRIPT = open('script_edmMerge_'+str(fcount)+'.sh',"w")
 			SCRIPT.writelines(exe+';\n')
-			SCRIPT.close()	
+			SCRIPT.close()
+			SLOCAL.writelines('sh script_edmMerge_'+str(fcount)+'.sh >& script_edmMerge_'+str(fcount)+'.log &\n')
 			#print '\n'
 			fcount += 1
 			outputList=''
@@ -98,3 +101,4 @@ with open(AllList) as ffp:
 		if jcount!=count: outputList += ','
 
 
+SLOCAL.close()
