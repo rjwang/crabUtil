@@ -17,8 +17,10 @@ def getByLabel(desc,key,defaultVal=None) :
 
 
 SCRIPT = open('script_completedjobs.sh',"w")
+SCRIPTB = open('script_cleanjobs.sh',"w")
+SCRIPTM = open('script_mergejobs.sh',"w")
 BASE=os.getenv('CMSSW_BASE')
-samplesDB = BASE+'/src/CMGTools/HiggsAna2l2v/data/dijet_sample.json'
+samplesDB = '/afs/cern.ch/work/r/rewang/darkmatter/CMSSW_7_4_14/src/llvvAnalysis/DMAnalysis/data/sample_13TeV_25ns.json'
 
 #open the file which describes the sample
 jsonFile = open(samplesDB,'r')
@@ -37,7 +39,7 @@ for ajob in alljobs:
     with open(joblog) as fp:
 
 	myfinishjobs = '0'
-	mydir = 'FXIME'
+	mydir = 'FIXME'
     	for line in fp:
 
 	  #if "Jobs with Wrapper Exit Code :" in line:
@@ -56,17 +58,17 @@ for ajob in alljobs:
 	      logfile = line.split()
 	      llfile = logfile[3].split('/')
 	      #print llfile
-	      for ifile in llfile: 
-		if ('MC8TeV_' in ifile) or ('Data8TeV_' in ifile):
+	      for ifile in llfile:
+		if ('MC13TeV_' in ifile) or ('Data13TeV_' in ifile) or ('MC8TeV_' in ifile) or ('Data8TeV_' in ifile):
 			mydir=ifile
-		 
+
 
 	      for proc in procList :
 		for desc in proc[1] :
 			data = desc['data']
 			#print data
 			for d in data :
-				origdtag = getByLabel(d,'dtag','') 
+				origdtag = getByLabel(d,'dtag','')
 				split = getByLabel(d,'split','')
 				#print origdtag + ': ' + str(split)
 				if(mydir == origdtag): asplit = split
@@ -91,17 +93,30 @@ for ajob in alljobs:
 	  SCRIPT.writelines('# Total jobs: ' + totaljobs[1] + ' finished jobs: '+ finishjobs[1] + '\n')
 	  SCRIPT.writelines('#' + ajob + '\n')
           SCRIPT.writelines('  mkdir -p /tmp/rewang/'+mydir+'/res/'+';\n')
-          SCRIPT.writelines('  multicrab -get -c ' + ajob + ';\n')
-          SCRIPT.writelines('  mv '+mydir+'/res/analysis*.root /tmp/rewang/'+mydir+'/res/'+';\n\n')
+	  igetjob=0
+	  while  igetjob*50 < int(totaljobs[1]):
+		igetjob=igetjob+1
+		if(igetjob*50 > int(totaljobs[1])):
+			if totaljobs[1] == "1":
+				SCRIPT.writelines('  multicrab -get  -c ' + ajob + ';\n')
+			else:
+				SCRIPT.writelines('  multicrab -get 1-'+totaljobs[1]+' -c ' + ajob + ';\n')
+          	else:
+			SCRIPT.writelines('  multicrab -get 1-'+str(igetjob*50) +' -c ' + ajob + ';\n')
+          	SCRIPT.writelines('  mv '+mydir+'/res/*.root /tmp/rewang/'+mydir+'/res/'+';\n\n')
 	  #SCRIPT.writelines('# multicrab -report -c ' + ajob + ';\n')
-	  SCRIPT.writelines('# sh mergeOutput.sh ' + mydir + ' '+ str(asplit) + ' ;\n')
-	  SCRIPT.writelines('# multicrab -clean -c ' + ajob + ';\n')
-	  SCRIPT.writelines('# rm -r ' + ajob + ';\n')
-	  SCRIPT.writelines('# rm -r ' + mydir + ';\n')
-	  SCRIPT.writelines('# rm ' + joblog + ';\n')
+	  SCRIPTM.writelines(' sh mergeOutput.sh ' + mydir + ' '+ str(asplit) + ' ;\n')
+	  SCRIPTB.writelines(' multicrab -clean -c ' + ajob + ';\n')
+	  SCRIPTB.writelines(' rm -r ' + ajob + ';\n')
+	  SCRIPTB.writelines(' rm -r ' + mydir + ';\n')
+	  SCRIPTB.writelines(' rm ' + joblog + ';\n')
 
 
 SCRIPT.close()
+SCRIPTB.close()
+SCRIPTM.close()
+
+
 
 #os.system('more script_completedjobs.sh')
 
