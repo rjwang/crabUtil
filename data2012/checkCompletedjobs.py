@@ -17,8 +17,10 @@ def getByLabel(desc,key,defaultVal=None) :
 
 
 SCRIPT = open('script_completedjobs.sh',"w")
+SCRIPTB = open('script_cleanjobs.sh',"w")
+SCRIPTM = open('script_mergejobs.sh',"w")
 BASE=os.getenv('CMSSW_BASE')
-samplesDB = BASE+'/src/CMGTools/HiggsAna2l2v/data/dijet_sample.json'
+samplesDB = '/afs/cern.ch/work/r/rewang/darkmatter/CMSSW_7_4_14/src/llvvAnalysis/DMAnalysis/data/sample_13TeV_25ns.json'
 
 #open the file which describes the sample
 jsonFile = open(samplesDB,'r')
@@ -55,24 +57,23 @@ for ajob in alljobs:
 	  if "Log file" in line:
 	      logfile = line.split()
 	      llfile = logfile[3].split('/')
-              #print llfile
-              for ifile in llfile:
-                if ('MC8TeV_' in ifile) or ('Data8TeV_' in ifile):
-                        mydir=ifile
+	      #print llfile
+	      for ifile in llfile:
+		if ('MC13TeV_' in ifile) or ('Data13TeV_' in ifile) or ('MC8TeV_' in ifile) or ('Data8TeV_' in ifile):
+			mydir=ifile
 
 
-              for proc in procList :
-                for desc in proc[1] :
-                        data = desc['data']
-                        #print data
-                        for d in data :
-                                origdtag = getByLabel(d,'dtag','')
-                                split = getByLabel(d,'split','')
-                                #print origdtag + ': ' + str(split)
-                                if(mydir == origdtag): asplit = split
+	      for proc in procList :
+		for desc in proc[1] :
+			data = desc['data']
+			#print data
+			for d in data :
+				origdtag = getByLabel(d,'dtag','')
+				split = getByLabel(d,'split','')
+				#print origdtag + ': ' + str(split)
+				if(mydir == origdtag): asplit = split
 
-              #print str(asplit)
-
+	      #print str(asplit)
 
 	  if "Jobs with Wrapper Exit Code : 0" in line:
 	      #print line
@@ -91,19 +92,25 @@ for ajob in alljobs:
 	if myfinishjobs == totaljobs[1]:
 	  SCRIPT.writelines('# Total jobs: ' + totaljobs[1] + ' finished jobs: '+ finishjobs[1] + '\n')
 	  SCRIPT.writelines('#' + ajob + '\n')
-	  SCRIPT.writelines('multicrab -get -c ' + ajob + ';\n')
-	  SCRIPT.writelines('multicrab -report -c ' + ajob + ';\n')
-	  SCRIPT.writelines('# mkdir -p jsonFile;\n');
-	  SCRIPT.writelines('# cp '+mydir+'/res/task_missingLumiSummary.json jsonFile/'+mydir+'_missingLumiSummary.json;\n')
-	  SCRIPT.writelines('# cp '+mydir+'/res/lumiSummary.json jsonFile/'+mydir+'_lumiSummary.json;\n')
-	  SCRIPT.writelines('# sh mergeOutput.sh ' + mydir + ' '+ str(asplit) + ' ;\n')
-	  SCRIPT.writelines('# multicrab -clean -c ' + ajob + ';\n')
-	  SCRIPT.writelines('# rm -r ' + ajob + ';\n')
-	  SCRIPT.writelines('# rm -r ' + mydir + ';\n')
-	  SCRIPT.writelines('# rm ' + joblog + ';\n')
+          SCRIPT.writelines('  mkdir -p /tmp/rewang/'+mydir+'/res/'+';\n')
+          SCRIPT.writelines('  multicrab -get -c ' + ajob + ';\n')
+	  SCRIPT.writelines('  multicrab -report -c ' + ajob + ';\n')
+	  SCRIPT.writelines('  mkdir -p jsonFile;\n');
+	  SCRIPT.writelines('  cp '+mydir+'/res/task_missingLumiSummary.json jsonFile/'+mydir+'_missingLumiSummary.json;\n')
+	  SCRIPT.writelines('  cp '+mydir+'/res/lumiSummary.json jsonFile/'+mydir+'_lumiSummary.json;\n')
+          SCRIPT.writelines('  mv '+mydir+'/res/analysis*.root /tmp/rewang/'+mydir+'/res/'+';\n\n')
+	  SCRIPTM.writelines(' sh mergeOutput.sh ' + mydir + ' '+ str(asplit) + ' ;\n')
+	  SCRIPTB.writelines(' multicrab -clean -c ' + ajob + ';\n')
+	  SCRIPTB.writelines(' rm -r ' + ajob + ';\n')
+	  SCRIPTB.writelines(' rm -r ' + mydir + ';\n')
+	  SCRIPTB.writelines(' rm ' + joblog + ';\n')
 
 
 SCRIPT.close()
+SCRIPTB.close()
+SCRIPTM.close()
+
+
 
 #os.system('more script_completedjobs.sh')
 
