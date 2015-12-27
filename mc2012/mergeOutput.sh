@@ -13,8 +13,8 @@ let "finalstep=(${totalOutputs}+$temp+${nsplit})/${nsplit}"
 
 #echo "$finalstep"
 #echo "total: ${totalOutputs}"
-#echo "nsplit: ${nsplit}" 
-#echo "temp: ${temp}" 
+#echo "nsplit: ${nsplit}"
+#echo "temp: ${temp}"
 #echo "step: $step"
 
 
@@ -34,7 +34,7 @@ if [ $nsplit == 1 ]; then
             	outputList="${outputList} ${newFile}"
           fi
     	done
-    	hadd -f /tmp/rewang/${1}.root ${outputList}
+    	hadd -f -k /tmp/rewang/${1}.root ${outputList}
     done
 fi
 
@@ -44,7 +44,7 @@ if [ $nsplit != 1 ]; then
    for i in `seq 0 ${nn}`; do
    	let "startOutput=${i}*$finalstep+1"
         let "endOutput=(${i}+1)*$finalstep"
-	
+
 	#echo "$finalstep"
     	echo "${startOutput}-${endOutput}"
 
@@ -56,7 +56,7 @@ if [ $nsplit != 1 ]; then
 	  fi
     	done
 	#echo ${outputList}
-    	hadd -f /tmp/rewang/${1}_${i}.root ${outputList}
+    	hadd -f -k /tmp/rewang/${1}_${i}.root ${outputList}
    done
 fi
 
